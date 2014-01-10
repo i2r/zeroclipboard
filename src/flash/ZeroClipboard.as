@@ -117,6 +117,7 @@ package {
       dispatch("complete", ZeroClipboard.metaData(event, {
         text: clipText.split("\\").join("\\\\")
       }));
+      log("ZC:mouseClick → " + clipText);
 
       // reset the text
       clipText = "";
@@ -148,10 +149,12 @@ package {
     private function mouseDown(event:MouseEvent): void {
       dispatch("mouseDown", ZeroClipboard.metaData(event));
 
+      log("ZC:mouseDown");
       // if the clipText hasn't been set
       if (!clipText) {
         // request data from the page
         dispatch("dataRequested", ZeroClipboard.metaData(event));
+        log("ZC:dispatch dataRequested");
       }
     }
 
@@ -172,6 +175,7 @@ package {
     public function setText(newText:String): void {
       // set the maximum number of files allowed
       clipText = newText;
+      log("ZC:setText → " + clipText);
     }
 
     // setHandCursor
@@ -237,6 +241,11 @@ package {
       }
 
       return normalOptions;
+    }
+
+    // Logging
+    private function log(value:*):void{
+       ExternalInterface.call("console.log", value);
     }
   }
 }
